@@ -5,9 +5,7 @@ set -e
 export PORT="${PORT:-80}"
 
 # Reemplazar el placeholder con la URL real del backend
-if [ -n "$API_URL" ]; then
-  
-fi
+
 
 # Sustituir PORT en nginx.conf
 envsubst '${PORT}' < /etc/nginx/nginx.conf > /tmp/nginx.conf && mv /tmp/nginx.conf /etc/nginx/nginx.conf
