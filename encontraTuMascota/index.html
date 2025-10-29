@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Encontrá tu mascota</title>
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+  </head>
+  <body class="centrar-flex">
+
+    <div class="centrar-flex">
+      <header class="site-header">
+        <img src="husky-svgrepo-com.svg" alt="Logo Encontrá tu mascota" class="logo">
+        <h1>Encontrá tu mascota</h1>
+        <div class="theme-switch-wrapper">
+          <label class="theme-switch" for="checkbox">
+            <input type="checkbox" id="checkbox" />
+            <div class="slider round"></div>
+          </label>
+          <span class="theme-mode">Modo Oscuro</span>
+        </div>
+      </header>
+
+      <div class="nosotros">
+      <p>Encontrá tu mascota es un proyecto que tiene como objetivo que haya más mascotas con hogar y menos en la calle. <br>
+        Los usuarios pueden buscar por zona a su mascota perdida, así como también agregar mascotas extraviadas o sin hogar que hayan visto</p>
+      </div>
+
+    <div id="contenedor_menu" class="centrar-flex">
+    <div class="div_boton">
+      <p id="color">Encontrar un perro</p>
+      <button id="boton_buscar">Buscar</button>
+    </div>
+    <div class="div_boton">
+      <p id="color">Subir un perro</p>
+      <button id="boton_agregar">Agregar</button>
+    </div>
+    </div>
+
+    <div id="buscar_form">
+      <h4>Buscar un perro</h4>
+      <input type="text" id="barrio" placeholder="Ingresar barrio"/>
+      <button id="btn_traer_perros">Buscar</button>
+      <button id="volver">Volver</button>
+    </div>
+    
+    <div id="lista_perros" class="hidden">
+        
+    </div>
+
+    <form id="agregar_form">
+      <h2>Subir un perro encontrado</h2>
+      <input type="text" id="descripcion" placeholder="descripción" />
+      <input type="text" id="ubicacion" placeholder="Zona donde se encontró" />
+      <input type="file" id="imagen"/>
+
+      <button id="guardar" type="submit">Guardar</button>
+      <button class="volver" type="button">Volver</button>
+    </form>
+
+    </div>
+    <script src="app.js"></script>
+  </body>
+</html>

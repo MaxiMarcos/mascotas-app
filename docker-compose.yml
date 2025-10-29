@@ -1,0 +1,49 @@
+services:
+  
+  mysql:
+    image: mysql:8.0
+    container_name: perros-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root123
+      MYSQL_DATABASE: perrosdelacalle
+    ports:
+      - "3333:3306"  # host:contenedor
+    networks:
+      - perrosnet
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot --password=root123 || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 20s   # espera 20s antes de chequear por primera vez
+
+  backend:
+    build: ./perrosenlacalle
+    container_name: backend-perrosenlacalle
+    ports:
+      - "9088:9088"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/perrosdelacalle?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=root123
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
+    restart: always
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - perrosnet
+
+  frontend:
+    build: ./encontraTuMascota
+    container_name: frontend-perrosenlacalle
+    ports:
+      - "5500:80"
+    networks:
+      - perrosnet
+    depends_on:
+      - backend
+
+networks:
+  perrosnet:
+    driver: bridge
