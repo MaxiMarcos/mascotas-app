@@ -118,8 +118,8 @@ document.addEventListener('DOMContentLoaded', function() {
     async function guardar_perro(e) {
         e.preventDefault();
     
-        const descripcion= document.querySelector("#descripcion"); 
-        const ubicacion = document.querySelector("#ubicacion");
+        const descripcion = document.querySelector("#descripcion").value; 
+        const ubicacion = document.querySelector("#ubicacion").value;
 
         const imagenInput = document.querySelector("#imagen");
         const file = imagenInput.files[0];
