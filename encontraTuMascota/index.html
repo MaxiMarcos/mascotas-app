@@ -6,6 +6,12 @@
     <title>Encontrá tu mascota</title>
     <link rel="stylesheet" href="style.css" />
     <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <script>
+      // Configuración de API para Railway
+      window.API_URL = window.location.hostname === 'localhost' 
+        ? 'http://localhost:9088' 
+        : 'API_URL_PLACEHOLDER';
+    </script>
   </head>
   <body class="centrar-flex">
 

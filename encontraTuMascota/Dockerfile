@@ -4,7 +4,15 @@ FROM nginx:alpine
 # Copiamos todos los archivos del frontend al directorio de nginx
 COPY . /usr/share/nginx/html
 
-# Exponemos el puerto que vamos a mapear en docker-compose
-EXPOSE 5500
+# Copiamos configuración personalizada de nginx para usar PORT
+COPY nginx.conf /etc/nginx/nginx.conf
 
-# Nginx ya tiene un ENTRYPOINT por defecto, así que no hace falta ponerlo
+# Copiamos el script de inicio
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
+
+# Exponemos el puerto por defecto
+EXPOSE 80
+
+# Usar el script de inicio
+CMD ["/start.sh"]

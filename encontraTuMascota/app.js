@@ -76,7 +76,8 @@ document.addEventListener('DOMContentLoaded', function() {
         lista_perros.classList.remove("hidden");
 
         try{
-            const respuesta = await fetch(`http://localhost:9088/api/mascotas/buscar?ubicacion=${perro_barrio}`);
+            const API_URL = window.API_URL || 'http://localhost:9088';
+        const respuesta = await fetch(`${API_URL}/api/mascotas/buscar?ubicacion=${perro_barrio}`);
             if (!respuesta.ok) throw new Error("Error al traer los perros");
             
             const perros = await respuesta.json();
@@ -152,7 +153,8 @@ document.addEventListener('DOMContentLoaded', function() {
     
     try {
         console.log("Enviando mascota (JSON)...", { descripcion, ubicacion, size: file.size });
-        const res = await fetch("http://localhost:9088/api/mascotas", {
+        const API_URL = window.API_URL || 'http://localhost:9088';
+        const res = await fetch(`${API_URL}/api/mascotas`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload)
