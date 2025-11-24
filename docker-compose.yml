@@ -2,48 +2,67 @@ services:
   
   mysql:
     image: mysql:8.0
-    container_name: perros-mysql
+    container_name: mysql-mascotas
+    restart: always
     environment:
-      MYSQL_ROOT_PASSWORD: root123
-      MYSQL_DATABASE: perrosdelacalle
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: mascotas
     ports:
-      - "3333:3306"  # host:contenedor
+      - "3333:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
     networks:
       - perrosnet
-    healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot --password=root123 || exit 1"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
-      start_period: 20s   # espera 20s antes de chequear por primera vez
+
 
   backend:
-    build: ./perrosenlacalle
     container_name: backend-perrosenlacalle
+    build:
+      context: ./perrosenlacalle 
+      dockerfile: Dockerfile
     ports:
       - "9088:9088"
     environment:
-      - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/perrosdelacalle?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC
-      - SPRING_DATASOURCE_USERNAME=root
-      - SPRING_DATASOURCE_PASSWORD=root123
-      - SPRING_JPA_HIBERNATE_DDL_AUTO=update
-    restart: always
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/mascotas?allowPublicKeyRetrieval=true&useSSL=false&serverTimezone=UTC
+      SPRING_DATASOURCE_USERNAME: root
+      SPRING_DATASOURCE_PASSWORD: root
     depends_on:
-      mysql:
-        condition: service_healthy
+      - mysql
     networks:
       - perrosnet
 
+
   frontend:
-    build: ./encontraTuMascota
     container_name: frontend-perrosenlacalle
+    build:
+      context: ./encontraTuMascota
+      dockerfile: Dockerfile 
     ports:
-      - "5500:80"
+      - "5173:80"
     networks:
       - perrosnet
     depends_on:
       - backend
 
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    container_name: pma-mascotas
+    restart: always
+    ports:
+      - "8081:80"
+    environment:
+      PMA_HOST: mysql
+      PMA_PORT: 3306
+      PMA_USER: root
+      PMA_PASSWORD: root
+    depends_on:
+      - mysql
+    networks:
+      - perrosnet
+
 networks:
   perrosnet:
     driver: bridge
+
+volumes:
+  mysql_data:

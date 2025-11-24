@@ -118,16 +118,18 @@ document.addEventListener('DOMContentLoaded', function() {
     async function guardar_perro(e) {
         e.preventDefault();
     
-        const descripcion = document.querySelector("#descripcion").value; 
-        const ubicacion = document.querySelector("#ubicacion").value;
+        const descripcionInput = document.querySelector("#descripcion"); 
+        const ubicacionInput = document.querySelector("#ubicacion");
+
+        const descripcion = descripcionInput.value;
+        const ubicacion = ubicacionInput.value;
 
         const imagenInput = document.querySelector("#imagen");
         const file = imagenInput.files[0];
     
       // Validaciones básicas
-        if (!descripcion.value) { descripcion.style.borderColor = "red";
-            }
-        if (!ubicacion.value) { ubicacion.style.borderColor = "red"; }
+        if (!descripcion) { descripcionInput.style.borderColor = "red"; }
+        if (!ubicacion) { ubicacionInput.style.borderColor = "red"; }
 
 
         if (!file) { alert("Por favor, selecciona una imagen"); return; }

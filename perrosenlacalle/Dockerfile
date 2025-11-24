@@ -6,8 +6,8 @@ COPY src ./src
 RUN mvn -B -DskipTests package
 
 # Etapa de runtime
-FROM openjdk:17-jdk-slim
+FROM eclipse-temurin:17-jdk-jammy
 WORKDIR /app
 COPY --from=build /app/target/*.jar app_perrosenlacalle.jar
-EXPOSE 8080
-ENTRYPOINT ["sh", "-c", "java -Dserver.port=${PORT:-8080} -jar app_perrosenlacalle.jar"]
+EXPOSE 9088
+ENTRYPOINT ["sh", "-c", "java -Dserver.port=${PORT:-9088} -jar app_perrosenlacalle.jar"]

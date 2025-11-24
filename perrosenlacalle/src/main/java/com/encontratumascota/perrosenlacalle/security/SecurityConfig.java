@@ -16,6 +16,7 @@ public class SecurityConfig {
         public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
             http
                     .cors(Customizer.withDefaults())
+                    .csrf(csrf -> csrf.disable()) // Deshabilitar CSRF para desarrollo local
                     .authorizeHttpRequests(authz -> authz
                             .anyRequest().permitAll()
                     );
