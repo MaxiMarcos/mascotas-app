@@ -58,13 +58,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     function mostrarPerros(perros) {
         lista_perros.innerHTML = perros.map(p =>
-        `<div class="perro" style="border:1px solid #ccc; padding:10px; margin:10px; border-radius:8px; display:flex; flex-direction:column; background-color: rgba(255, 255, 255, 0.1);">
+        `<div class="perro">
         <h3>${p.nombre}</h3>
         <h5>${p.descripcion}</h5>
         <h6>${p.ubicacion.barrio} - ${p.fecha}</h6>
-        <img src="${p.imagen}" alt="Imagen de ${p.nombre}" style="width:200px; height:auto; border-radius:8px;">
-        </div>` // falta ubicación
-        ).join("");
+        <img src="${p.imagen}" alt="Imagen de ${p.nombre}">
+        </div>`
+        ).join("") + `<button class="volver">Volver</button>`;
+        setupVolverButtons();
     }
 
     // MÉTODO GET MASCOTAS POR BARRIO
@@ -102,13 +103,17 @@ document.addEventListener('DOMContentLoaded', function() {
         p.style.display = "block";
     }
     
-    // Botones para volver al menú principal
-    document.querySelectorAll(".volver").forEach(btn => {
-        btn.addEventListener("click", function(e) {
-            e.preventDefault();
-            volverAlMenu();
+    function setupVolverButtons() {
+        document.querySelectorAll(".volver").forEach(btn => {
+            btn.addEventListener("click", function(e) {
+                e.preventDefault();
+                volverAlMenu();
+            });
         });
-    });
+    }
+
+    // Configurar event listeners para los botones "Volver" iniciales
+    setupVolverButtons();
     
     console.log("Event listeners configurados correctamente");
 
@@ -120,19 +125,29 @@ document.addEventListener('DOMContentLoaded', function() {
     
         const descripcionInput = document.querySelector("#descripcion"); 
         const ubicacionInput = document.querySelector("#ubicacion");
+        const ubicacionErrorSpan = document.querySelector("#ubicacion-error");
+        const imagenInput = document.querySelector("#imagen");
+        const imagenErrorSpan = document.querySelector("#imagen-error");
+
+        // Limpiar mensajes de error previos
+        ubicacionErrorSpan.textContent = "";
+        imagenErrorSpan.textContent = "";
+        descripcionInput.style.borderColor = "";
+        ubicacionInput.style.borderColor = "";
 
         const descripcion = descripcionInput.value;
         const ubicacion = ubicacionInput.value;
 
-        const imagenInput = document.querySelector("#imagen");
         const file = imagenInput.files[0];
     
       // Validaciones básicas
         if (!descripcion) { descripcionInput.style.borderColor = "red"; }
         if (!ubicacion) { ubicacionInput.style.borderColor = "red"; }
 
-
-        if (!file) { alert("Por favor, selecciona una imagen"); return; }
+        if (!file) {
+            imagenErrorSpan.textContent = "Por favor, selecciona una imagen.";
+            return;
+        }
     
       // Leer la imagen como Base64 (DataURL) para enviar en JSON
         const toDataURL = (file) => new Promise((resolve, reject) => {
@@ -183,9 +198,18 @@ document.addEventListener('DOMContentLoaded', function() {
     
             // Para cualquier 400, preferir el mensaje del backend; si no, usar el específico de ubicación
             if (res.status === 400) {
-                msg = serverMsg || rawText || `La ubicación "${ubicacion}" no existe. Por favor, verifica el nombre del barrio.`;
+                // Verificar si el mensaje del backend es genérico "Bad Request"
+                const isGenericBadRequest = (serverMsg && serverMsg.toLowerCase().includes('bad request')) ||
+                                            (rawText && rawText.toLowerCase().includes('bad request'));
+
+                if (isGenericBadRequest || (!serverMsg && !rawText)) {
+                    msg = `La ubicación "${ubicacion}" no existe. Por favor, verifica el nombre del barrio.`;
+                } else {
+                    msg = serverMsg || rawText; // Usar el mensaje del backend si no es genérico
+                }
+                ubicacionInput.style.borderColor = "red";
             }
-    
+
             // Si el backend lanza RuntimeException y responde 500 con texto relacionado a ubicación
             if (res.status === 500) {
                 const bodyStr = (rawText || JSON.stringify(parsed ?? {})).toLowerCase();
@@ -193,10 +217,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 const mencionaValida = bodyStr.includes('valida') || bodyStr.includes('válida');
                 if (mencionaUbicacion && mencionaValida) {
                     msg = serverMsg || rawText || `La ubicación "${ubicacion}" no existe. Por favor, verifica el nombre del barrio.`;
+                    ubicacionInput.style.borderColor = "red";
                 }
             }
             console.error("Error al agregar el perro:", parsed ?? data, "status:", res.status);
-            alert(msg);
+            ubicacionErrorSpan.textContent = msg;
             return;
         }
     

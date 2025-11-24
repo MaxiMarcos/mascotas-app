@@ -37,6 +37,14 @@ body {
     color: var(--text-color);
 }
 
+.error-message {
+    color: red;
+    font-size: 0.9em;
+    margin-top: -10px;
+    margin-bottom: 10px;
+    display: block;
+}
+
 .site-header {
     display: flex;
     flex-direction: column;
@@ -274,7 +282,7 @@ input:checked + .slider:before {
     outline: none;
 }
 
-#agregar_form button {
+button {
     border-radius: 30px;
     color: white;
     background-color: #ff6b6b;
@@ -306,19 +314,6 @@ input:checked + .slider:before {
     outline: none;
 }
 
-#btn_traer_perros, #volver {
-    border-radius: 30px;
-    color: white;
-    background-color: #ff6b6b;
-    padding: 12px 25px;
-    margin: 10px 5px;
-    font-size: 16px;
-    font-weight: 600;
-    transition: all 0.3s ease;
-    border: none;
-    cursor: pointer;
-    box-shadow: 0 4px 10px rgba(255, 107, 107, 0.3);
-}
 
 #lista_perros{
 	display: flex;

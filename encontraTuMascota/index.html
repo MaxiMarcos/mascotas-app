@@ -45,21 +45,22 @@
     </div>
 
     <div id="buscar_form">
-      <h4>Buscar un perro</h4>
-      <input type="text" id="barrio" placeholder="Ingresar barrio"/>
+      <h4>Buscar perros</h4>
+      <input type="text" id="barrio" placeholder="Si desea filtrar, ingrese un barrio"/>
       <button id="btn_traer_perros">Buscar</button>
-      <button id="volver">Volver</button>
+      <button class="volver">Volver</button>
     </div>
     
     <div id="lista_perros" class="hidden">
-        
     </div>
 
     <form id="agregar_form">
       <h2>Subir un perro encontrado</h2>
       <input type="text" id="descripcion" placeholder="descripción" />
       <input type="text" id="ubicacion" placeholder="Zona donde se encontró" />
+      <span id="ubicacion-error" class="error-message"></span>
       <input type="file" id="imagen"/>
+      <span id="imagen-error" class="error-message"></span>
 
       <button id="guardar" type="submit">Guardar</button>
       <button class="volver" type="button">Volver</button>
