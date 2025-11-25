@@ -5,6 +5,6 @@ FROM nginx:alpine
 COPY . /usr/share/nginx/html
 
 # Exponemos el puerto que vamos a mapear en docker-compose
-EXPOSE 5500
+EXPOSE 80
 
 # Nginx ya tiene un ENTRYPOINT por defecto, así que no hace falta ponerlo
