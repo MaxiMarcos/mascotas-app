@@ -28,9 +28,6 @@
 body {
     min-height: 100vh;
     background-color: var(--background-color);
-    background-image: url('https://img.freepik.com/free-vector/paw-prints-pattern-background_1017-7282.jpg');
-    background-size: 200px;
-    background-blend-mode: overlay;
     text-align: center;
     padding: 20px;
     overflow-x: hidden;
@@ -351,22 +348,22 @@ button {
 	box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
 }
 
-.perro h3{
+.perro h4{
 	margin-bottom: 12px;
 	color: #ff6b6b;
-	font-size: 22px;
+	font-size: 16px;
 	font-weight: bold;
 }
 
 .perro h5 {
     margin-bottom: 10px;
-    color: #333;
+    color: #f5aaaa;
     font-size: 16px;
     line-height: 1.5;
 }
 
 .perro h6 {
-    color: #666;
+    color: #f5aaaa;
     font-size: 14px;
     margin-bottom: 15px;
 }
@@ -408,6 +405,15 @@ button:hover {
 #btn_traer_perros:hover, #volver:hover {
     background-color: #ff8585;
     transform: translateY(-2px);
+}
+
+#lista_perros .volver {
+    flex-basis: 280px;
+    flex-shrink: 0;
+    flex-grow: 0;
+    height: auto;
+    align-self: center;
+    margin: 15px 5px;
 }
 
 .hidden {

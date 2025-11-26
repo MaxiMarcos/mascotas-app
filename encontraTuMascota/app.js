@@ -57,14 +57,17 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
     function mostrarPerros(perros) {
-        lista_perros.innerHTML = perros.map(p =>
-        `<div class="perro">
-        <h3>${p.nombre}</h3>
-        <h5>${p.descripcion}</h5>
-        <h6>${p.ubicacion.barrio} - ${p.fecha}</h6>
+        lista_perros.innerHTML = perros.map(p =>{
+
+        const fechaFormateada = new Date(p.fecha).toLocaleDateString('es-AR');
+
+        return `<div class="perro">
+        <h4>${p.ubicacion.barrio}</h4>
+        <h6>fecha: ${fechaFormateada}</h6>
+        <h6>${p.descripcion}</h6>
         <img src="${p.imagen}" alt="Imagen de ${p.nombre}">
         </div>`
-        ).join("") + `<button class="volver">Volver</button>`;
+    }).join("") + `<button class="volver">Volver</button>`;
         setupVolverButtons();
     }
 
